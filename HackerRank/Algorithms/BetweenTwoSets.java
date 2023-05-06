@@ -1,10 +1,12 @@
 package algorithms;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class BetweenTwoSets {
+    public static int NUMBERS = 0;
     public static int COUNT_NUMBER = 0;
+
+    public static List<Integer> listOfDigit = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -14,54 +16,37 @@ public class BetweenTwoSets {
         int n = Integer.parseInt(input[0]);
         int m = Integer.parseInt(input[1]);
 
-        int[] firstArr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
-        int[] secondArr = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        for (int i = 0; i < n + m; i++) {
+            int numb = scanner.nextInt();
+            listOfDigit.add(numb);
+        }
 
-        if (n == 1 && m == 1) {
-            for (int i = firstArr[0]; i <= secondArr[0]; i++) {
-                if (secondArr[0] % i == 0) {
-                    COUNT_NUMBER++;
-                }
-            }
-        }
-        else if (n < 2) {
-            for (int i = firstArr[0]; i <= secondArr[0]; i++) {
-                if (m > 2) {
-                    if (i % firstArr[0] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0 && secondArr[2] % i == 0) {
-                        COUNT_NUMBER++;
+        int startNumb = listOfDigit.get(n - 1);
+        int endNumb = listOfDigit.get(n);
+
+        int index = 0;
+
+        for (int i = startNumb; i <= endNumb; i++) {
+            while (index < n + m) {
+                if (i > listOfDigit.get(index)) {
+                    if (i % listOfDigit.get(index) == 0) {
+                        NUMBERS++;
                     }
                 } else {
-                    if (i % firstArr[0] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0) {
-                        COUNT_NUMBER++;
+                    if (listOfDigit.get(index) % i == 0) {
+                        NUMBERS++;
                     }
                 }
+
+                index++;
             }
-        }
-        else if (n > 2) {
-            for (int i = firstArr[2]; i <= secondArr[0]; i++) {
-                if (m > 2) {
-                    if (i % firstArr[0] == 0 && i % firstArr[1] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0 && secondArr[2] % i == 0) {
-                        COUNT_NUMBER++;
-                    }
-                } else {
-                    if (i % firstArr[0] == 0 && i % firstArr[1] == 0 && i % firstArr[2] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0) {
-                        COUNT_NUMBER++;
-                    }
-                }
+
+            if (NUMBERS == n + m) {
+                COUNT_NUMBER++;
             }
-        }
-        else if (n > 1) {
-            for (int i = firstArr[1]; i <= secondArr[0]; i++) {
-                if (m > 2) {
-                    if (i % firstArr[0] == 0 && i % firstArr[1] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0 && secondArr[2] % i == 0) {
-                        COUNT_NUMBER++;
-                    }
-                } else {
-                    if (i % firstArr[0] == 0 && i % firstArr[1] == 0 && secondArr[0] % i == 0 && secondArr[1] % i == 0) {
-                        COUNT_NUMBER++;
-                    }
-                }
-            }
+
+            NUMBERS = 0;
+            index = 0;
         }
 
         System.out.println(COUNT_NUMBER);
